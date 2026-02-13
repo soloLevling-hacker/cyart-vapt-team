@@ -103,3 +103,40 @@ Please let me know if a detailed technical breakdown or proof-of-concept validat
 Regards,
 Khush Rupapara
 ```
+
+```
+## Nmap Service Version Scan
+
+![Nmap Service Scan](Images/scanning/nmap_service_version_scan.png)
+
+---
+
+## Nikto Web Vulnerability Scan
+
+![Nikto Scan](Images/scanning/nikto_web_vulnerability_scan.png)
+
+---
+
+## OpenVAS Severity Overview
+
+![OpenVAS Severity](Images/scanning/openvas_severity_overview.png)
+
+---
+
+## OpenVAS Results Summary
+
+![OpenVAS Results](Images/scanning/openvas_results_summary.png)
+
+---
+
+## Critical Vulnerabilities Identified
+
+![OpenVAS Critical](Images/scanning/openvas_critical_vulnerabilities.png)
+
+---
+
+## Scan Configuration & Metadata
+
+![OpenVAS Scan Info](Images/scanning/openvas_scan_information.png)
+
+```
