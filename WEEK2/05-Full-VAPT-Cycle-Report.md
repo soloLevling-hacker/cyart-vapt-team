@@ -148,14 +148,60 @@ Sensitive credential data was exposed, demonstrating high-risk data breach poten
 
 ---
 
-## 6. Post-Exploitation Findings
+### 6. Post-Exploitation Findings
 
-- System user compromised: tomcat55
-- Database credentials exposed
-- Outdated Apache and PHP versions detected
-- Multiple attack paths validated
+## Objective:
+To assess the depth of compromise after successful exploitation by escalating privileges, accessing sensitive system files, validating lateral impact potential, and demonstrating full system control.
 
-This stage confirmed privilege compromise and sensitive data extraction capability.
+### 6.1 Initial Access Context  
+- Entry Point: Apache Tomcat Manager RCE  
+- Initial User: tomcat55  
+- Access Level: Limited service account  
+- Shell Type: Meterpreter (reverse TCP)  
+
+### 6.2 Privilege Escalation  
+Enumeration  
+- SUID binaries were enumerated using:  
+- find / -perm -4000 -type f 2>/dev/null
+
+A misconfigured SUID-enabled Nmap binary was discovered:  
+- /usr/bin/nmap  
+Exploitation  
+- The installed Nmap version (4.53) supported interactive mode.  
+
+Privilege escalation steps:  
+- nmap --interactive  
+- !sh  
+- whoami  
+
+Output:  
+- root  
+- Root access successfully achieved.
+
+### 6.3 Sensitive Data Access  
+With root privileges, the following were accessible:  
+- /etc/shadow (All system password hashes)  
+- Application configuration files  
+- Database credentials  
+- System service configurations  
+- This confirms complete operating system compromise.
+
+### 6.4 Post-Exploitation Impact  
+The following risks were validated:  
+- Full administrative (root) control  
+- Credential harvesting capability  
+- Offline password cracking potential
+- Persistent backdoor implantation possibility  
+- Log tampering ability  
+- Lateral movement feasibility  
+- Complete confidentiality, integrity, and availability compromise
+
+### Root Access Confirmation
+![Root Access](Images/post-exploitation/04_root_access.png)
+
+### Shadow File Dump
+![Shadow Dump](Images/post-exploitation/05_shadow_dump.png)
+
 
 ---
 
