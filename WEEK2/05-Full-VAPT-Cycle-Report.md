@@ -115,8 +115,6 @@ Successful remote code execution demonstrates complete compromise of the web app
 
 ![Meterpreter Session](Images/capstone/04_tomcat_rce_meterpreter.png)
 
-![Shell Validation](Images/capstone/05_rce_shell_validation.png)
-
 ---
 
 ### 5.2 SQL Injection – DVWA
@@ -144,9 +142,9 @@ Sensitive credential data was exposed, demonstrating high-risk data breach poten
 
 ## SQL Injection Evidence
 
-![SQLMap Injection](Images/capstone/06_sqlmap_injection_confirmed.png)
+![SQLMap Injection](Images/capstone/05_sqlmap_injection_confirmed.png)
 
-![Users Dump](Images/capstone/07_sqlmap_users_dump.png)
+![Users Dump](Images/capstone/06_sqlmap_users_dump.png)
 
 ---
 
