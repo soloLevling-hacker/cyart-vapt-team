@@ -15,6 +15,7 @@ Mapped open ports and services in Maltego.
 Correlated findings with known vulnerabilities.
 
 Recon Activity Log
+```
 +---------------------+----------------+-----------------------------+------------------+
 | Timestamp           | Target IP      | Vulnerability / Service     | PTES Phase       |
 +---------------------+----------------+-----------------------------+------------------+
@@ -36,7 +37,7 @@ Identified Services (Asset Mapping)
 | 139  | SMB     | Samba 3.x        |
 | 3306 | MySQL   | MySQL 5.x        |
 +------+---------+------------------+
-
+```
 Key Observations
 Outdated software versions were identified via OSINT queries.
 Version disclosure increases the likelihood of targeted exploitation.
