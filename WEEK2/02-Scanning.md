@@ -104,7 +104,6 @@ Regards,
 Khush Rupapara
 ```
 
-```
 ## Nmap Service Version Scan
 
 ![Nmap Service Scan](Images/scanning/nmap_service_version_scan.png)
@@ -139,4 +138,4 @@ Khush Rupapara
 
 ![OpenVAS Scan Info](Images/scanning/openvas_scan_information.png)
 
-```
+
