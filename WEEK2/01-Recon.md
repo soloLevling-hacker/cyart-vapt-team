@@ -1,7 +1,7 @@
-Objective
+Objective:  
 Perform structured reconnaissance on the Metasploitable2 lab target to identify exposed services, outdated software versions, and potential attack vectors before active exploitation.
 
-Tools Used
+Tools Used:  
 Shodan
 Maltego
 Service Banner Analysis
@@ -38,11 +38,11 @@ Identified Services (Asset Mapping)
 | 3306 | MySQL   | MySQL 5.x        |
 +------+---------+------------------+
 ```
-Key Observations
+Key Observations:  
 Outdated software versions were identified via OSINT queries.
 Version disclosure increases the likelihood of targeted exploitation.
 Multiple legacy services running simultaneously expand the attack surface.
 FTP and HTTP services present high-value initial access opportunities.
 
-Recon Summary
+Recon Summary:  
 The reconnaissance phase successfully identified vulnerable and outdated services running on the target system. Public intelligence sources confirmed exposure of Apache 2.2.8 and vsFTPd 2.3.4, both historically associated with critical vulnerabilities. Asset mapping revealed multiple exposed ports, significantly increasing the overall attack surface and providing several potential entry points for the next phase.
