@@ -1,21 +1,40 @@
-Objective:  
-To actively identify open ports, running services, and confirmed vulnerabilities on the target system using automated scanning tools and validate exposure severity.
+# Vulnerability Scanning Phase
 
-Target:  
+## Objective
+To systematically identify exposed services, software versions, and confirmed vulnerabilities on the target system using automated security scanning tools, and to assess their severity and exploitation potential.
+
+---
+
+## Target
 192.168.1.8 (Metasploitable2)
 
-Tools Used:  
-Nmap (Service & Version Detection)  
-Nikto (Web Server Analysis)  
-OpenVAS (Automated Vulnerability Assessment)
+---
 
-Methodology:  
-Executed nmap -sV 192.168.1.8 for service enumeration.  
-Ran nikto -h 192.168.1.8 to analyze web server misconfigurations.  
-Conducted OpenVAS scan for vulnerability scoring and CVE mapping.  
-Correlated findings across tools to reduce false positives.  
+## Tools Used
+- Nmap (Service & Version Enumeration)
+- Nikto (Web Server Misconfiguration Analysis)
+- OpenVAS (Automated Vulnerability Assessment & CVE Mapping)
 
-Nmap Scan Results
+---
+
+## Methodology
+
+1. Executed service enumeration using:
+   nmap -sV 192.168.1.8
+
+2. Performed web application analysis using:
+   nikto -h 192.168.1.8
+
+3. Conducted a full OpenVAS scan to:
+   - Identify known CVEs
+   - Assign CVSS scores
+   - Categorize vulnerabilities by severity
+
+4. Correlated findings across tools to reduce false positives and validate exposure accuracy.
+
+---
+
+# Nmap Scan Results
 ```
 +------+------------+-------------------------------------------+
 | Port | Service    | Version                                   |
@@ -32,28 +51,30 @@ Nmap Scan Results
 | 8180 | HTTP       | Apache Tomcat/Coyote JSP engine 1.1       |
 +------+------------+-------------------------------------------+
 ```
+### Observation
+The system exposes multiple legacy and outdated services simultaneously, significantly expanding the attack surface and increasing the probability of successful exploitation.
 
-Observation:  
-Large attack surface due to multiple legacy services running simultaneously.
+---
 
-Nikto Web Server Findings
+# Nikto Web Server Findings
 ```
-+----------------+----------------------------------------------+
-| Finding        | Description                                  |
-+----------------+----------------------------------------------+
-| X-Frame-Opts   | Header missing (Clickjacking risk)          |
-| X-Content-Type | Header not set (MIME sniffing risk)         |
-| HTTP TRACE     | Enabled (Possible XST vulnerability)        |
-| phpinfo()      | Information disclosure                      |
-| Directory Index| /doc/, /test/, /icons/ exposed              |
-| Apache 2.2.8   | Outdated and End-of-Life                    |
-+----------------+----------------------------------------------+
++----------------------+----------------------------------------------+
+| Finding              | Description                                  |
++----------------------+----------------------------------------------+
+| X-Frame-Options      | Header missing (Clickjacking risk)           |
+| X-Content-Type       | Header not set (MIME sniffing risk)          |
+| HTTP TRACE           | Enabled (Possible Cross-Site Tracing risk)   |
+| phpinfo()            | Information disclosure                       |
+| Directory Indexing   | /doc/, /test/, /icons/ exposed               |
+| Apache 2.2.8         | Outdated and End-of-Life                     |
++----------------------+----------------------------------------------+
 ```
+### Observation
+Web server misconfigurations increase reconnaissance value for attackers and facilitate exploitation by disclosing internal system details.
 
-Observation:  
-Web server misconfigurations significantly increase exposure risk and provide reconnaissance value to attackers.
+---
 
-OpenVAS High-Severity Findings:
+# OpenVAS High-Severity Findings
 ```
 +---------+--------------------------------------+--------+-----------+--------------+
 | Scan ID | Vulnerability                        | CVSS   | Priority  | Host         |
@@ -67,75 +88,85 @@ OpenVAS High-Severity Findings:
 | 007     | Directory Indexing Enabled           | 5.3    | Medium    | 192.168.1.8  |
 +---------+--------------------------------------+--------+-----------+--------------+
 ```
+---
 
-Severity Summary (OpenVAS):  
-Critical: 12  
-High: 10  
-Medium: 40  
-Low: 6  
-Highest CVSS Score Observed: 10.0 (Critical)
+## Severity Summary (OpenVAS)
 
-## Business Impact
-- Remote Code Execution vulnerabilities could lead to full system compromise.  
-- Backdoored FTP service may allow unauthorized shell access.  
-- Legacy web services increase risk of exploitation and data breach.  
-- Misconfigurations provide attackers with reconnaissance advantages.  
+- Critical: 12  
+- High: 10  
+- Medium: 40  
+- Low: 6  
+- Highest CVSS Observed: 10.0 (Critical)
 
-## Remediation Recommendations
-- Upgrade Apache to a supported version.
-- Remove or disable FTP service if not required.
-- Disable HTTP TRACE method.
-- Restrict rlogin access.
-- Apply security headers (X-Frame-Options, X-Content-Type-Options).
-- Patch Tomcat AJP vulnerability.
+---
 
-```
+# Business Impact
+
+- Remote Code Execution vulnerabilities may result in complete system compromise.
+- Backdoored FTP services can provide unauthorized remote shell access.
+- Legacy and unsupported software increases the likelihood of publicly available exploit usage.
+- Misconfigurations aid attackers in reconnaissance and privilege escalation.
+- Simultaneous exposure of multiple high-risk services compounds overall security risk.
+
+---
+
+# Remediation Recommendations
+
+1. Upgrade Apache to a currently supported and patched version.
+2. Remove or disable FTP service if not operationally required.
+3. Disable HTTP TRACE method.
+4. Restrict or completely disable rlogin service.
+5. Implement secure HTTP headers:
+   - X-Frame-Options
+   - X-Content-Type-Options
+6. Patch or restrict Apache Tomcat AJP connector exposure.
+7. Apply principle of least privilege across exposed services.
+
+---
+
+# Escalation Email (Executive Summary)
+
 Subject: Critical Vulnerabilities Identified on 192.168.1.8
 
 Dear Development Team,
 
-During the vulnerability assessment, multiple critical issues were identified on the target system (192.168.1.8). Notably, vsFTPd 2.3.4 backdoor exposure and Apache 2.2.8 (End-of-Life) were detected with CVSS scores up to 10.0. Additionally, Apache Tomcat AJP RCE and passwordless rlogin access significantly increase the risk of remote compromise.
+During the recent vulnerability assessment, multiple critical security issues were identified on the system (192.168.1.8). High-risk findings include a vsFTPd backdoor vulnerability, Apache 2.2.8 end-of-life exposure, Apache Tomcat AJP RCE risk, and passwordless rlogin access, with CVSS scores reaching 10.0.
 
-Immediate remediation is recommended, including patching outdated services, disabling unnecessary protocols, and applying secure configuration standards.
+These vulnerabilities significantly increase the likelihood of remote compromise and unauthorized system access. Immediate remediation is strongly recommended, including patching outdated services, disabling unnecessary protocols, and implementing secure configuration standards.
 
-Please let me know if a detailed technical breakdown or proof-of-concept validation is required.
+Please advise if a detailed technical breakdown or proof-of-concept validation is required.
 
-Regards,
+Regards,  
 Khush Rupapara
-```
+
+---
+
+# Evidence Screenshots
 
 ## Nmap Service Version Scan
-
 ![Nmap Service Scan](Images/scanning/nmap_service_version_scan.png)
 
 ---
 
 ## Nikto Web Vulnerability Scan
-
 ![Nikto Scan](Images/scanning/nikto_web_vulnerability_scan.png)
 
 ---
 
 ## OpenVAS Severity Overview
-
 ![OpenVAS Severity](Images/scanning/openvas_severity_overview.png)
 
 ---
 
 ## OpenVAS Results Summary
-
 ![OpenVAS Results](Images/scanning/openvas_results_summary.png)
 
 ---
 
 ## Critical Vulnerabilities Identified
-
 ![OpenVAS Critical](Images/scanning/openvas_critical_vulnerabilities.png)
 
 ---
 
 ## Scan Configuration & Metadata
-
 ![OpenVAS Scan Info](Images/scanning/openvas_scan_information.png)
-
-
