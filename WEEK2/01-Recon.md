@@ -1,10 +1,10 @@
 Objective:  
 Perform structured reconnaissance on the Metasploitable2 lab target to identify exposed services, outdated software versions, and potential attack vectors before active exploitation.
 
-Tools Used:  
-Shodan
-Maltego
-Service Banner Analysis
+Tools Used:
+Shodan  
+Maltego  
+Service Banner Analysis  
 Methodology
 
 Searched vulnerable versions in Shodan:
